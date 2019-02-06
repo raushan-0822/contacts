@@ -4,7 +4,7 @@ WORKDIR /app
 # Set an env var that matches your github repo name, replace treeder/dockergo here with your repo name
 ENV SRC_DIR=/go/src/contacts
 # Add the source code:
-ADD ../* $SRC_DIR
+ADD ../ $SRC_DIR
 # Build it:
 RUN cd $SRC_DIR/; go build -o app; cp app /app/
 ENTRYPOINT ["./app"]
