@@ -1,0 +1,11 @@
+{
+    "process_name" : "contact_api",
+	"log_severity" : "debeug",
+	"db": {
+        "engine" : "mysql",
+        "connStr" : "root:heimdall@tcp(172.17.0.2:3306)/contact?charset=utf8&parseTime=True"
+    },
+	"cache": {
+        "engine" : "memory"
+    }
+}
