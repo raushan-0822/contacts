@@ -1,8 +1,9 @@
 package contract
 
 import (
-	"contacts/model"
 	"time"
+
+	"github.com/raushan-0822/contacts/model"
 )
 
 //Contact defines the structure to store details of contact resource

@@ -1,12 +1,13 @@
 package handler
 
 import (
-	contract "contacts/contracts"
-	"contacts/error"
-	"contacts/model"
 	"log"
 	"net/http"
 	"strconv"
+
+	contract "github.com/raushan-0822/contacts/contracts"
+	"github.com/raushan-0822/contacts/error"
+	"github.com/raushan-0822/contacts/model"
 
 	"github.com/labstack/echo"
 )

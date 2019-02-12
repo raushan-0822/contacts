@@ -1,10 +1,11 @@
 package model
 
 import (
-	"contacts/utils"
 	"fmt"
 	"reflect"
 	"testing"
+
+	"github.com/raushan-0822/contacts/utils"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"

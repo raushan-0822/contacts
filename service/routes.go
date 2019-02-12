@@ -1,7 +1,7 @@
 package contacts
 
 import (
-	"contacts/service/handlers"
+	"github.com/raushan-0822/contacts/service/handlers"
 
 	"github.com/labstack/echo"
 )

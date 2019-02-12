@@ -1,7 +1,7 @@
 package contract
 
 import (
-	"contacts/error"
+	"github.com/raushan-0822/contacts/error"
 )
 
 //BaseResponse defines the common structure of standard response

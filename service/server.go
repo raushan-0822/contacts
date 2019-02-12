@@ -1,7 +1,7 @@
 package contacts
 
 import (
-	"contacts/service/middlewares"
+	"github.com/raushan-0822/contacts/service/middlewares"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
