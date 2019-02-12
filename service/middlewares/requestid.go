@@ -1,7 +1,7 @@
 package middlewares
 
 import (
-	"contacts/utils"
+	"github.com/raushan-0822/contacts/utils"
 
 	"github.com/labstack/echo"
 )

@@ -1,11 +1,11 @@
 package middlewares
 
 import (
-	contract "contacts/contracts"
-	"contacts/error"
-	"contacts/model"
-	"contacts/service/handlers"
-	"contacts/utils"
+	contract "github.com/raushan-0822/contacts/contracts"
+	"github.com/raushan-0822/contacts/error"
+	"github.com/raushan-0822/contacts/model"
+	"github.com/raushan-0822/contacts/service/handlers"
+	"github.com/raushan-0822/contacts/utils"
 
 	"github.com/labstack/echo"
 )

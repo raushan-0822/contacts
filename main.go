@@ -1,11 +1,12 @@
 package main
 
 import (
-	"contacts/config"
-	"contacts/model"
-	"contacts/service"
 	"log"
 	"os"
+
+	"github.com/raushan-0822/contacts/config"
+	"github.com/raushan-0822/contacts/model"
+	"github.com/raushan-0822/contacts/service"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
