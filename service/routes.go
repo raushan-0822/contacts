@@ -13,4 +13,5 @@ func AddRoutes(e *echo.Group) {
 	e.GET("contacts/:id", handler.ContactHandler)
 	e.DELETE("contacts/:id", handler.ContactHandler)
 	e.GET("contacts/search/:name", handler.ContactSearchHandler)
+	e.GET("contacts/search/:name/:page", handler.ContactSearchHandler)
 }

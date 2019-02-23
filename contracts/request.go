@@ -1,6 +1,7 @@
 package contract
 
 type (
+	//ContactPostRequest is contract for post request validations
 	ContactPostRequest struct {
 		Number      string `form:"number" query:"number" json:"number" validate:"required"`
 		FirstName   string `form:"first_name" query:"first_name" json:"first_name" validate:"required"`
@@ -9,6 +10,7 @@ type (
 		Email       string `form:"email" query:"email" json:"email" validate:"required,email"`
 	}
 
+	//ContactUpdateRequest  is contract for put request validations
 	ContactUpdateRequest struct {
 		Number      string `form:"number" query:"number" json:"number"`
 		FirstName   string `form:"first_name" query:"first_name" json:"first_name"`

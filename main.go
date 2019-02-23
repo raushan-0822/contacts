@@ -12,8 +12,6 @@ import (
 )
 
 func main() {
-	// initialize empty context
-
 	//initialize configmanager
 	if err := config.InitConfig(""); err != nil {
 		log.Println("Failed initializing configmanager. Error = ", err)

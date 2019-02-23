@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -14,7 +13,6 @@ import (
 
 // ContactHandler returns response
 func ContactHandler(c echo.Context) error {
-	log.Println(c.Request().Method)
 	switch c.Request().Method {
 	case http.MethodPost:
 		return ContactCreateHandler(c)
@@ -33,7 +31,6 @@ func ContactHandler(c echo.Context) error {
 func ContactCreateHandler(c echo.Context) error {
 	var response contract.ContactsResponse
 	requestID := c.Get("RequestID").(string)
-	log.Println(requestID)
 	method := c.Request().Method
 	req := new(contract.ContactPostRequest)
 	if err := c.Bind(req); err != nil {
@@ -49,7 +46,6 @@ func ContactCreateHandler(c echo.Context) error {
 	contact.LastName = req.LastName
 	contact.CompanyName = req.CompanyName
 	contact.Email = req.Email
-	log.Println(contact)
 	ResContact, err := model.AddContact(&contact)
 	if err != nil {
 		return Response(c, &response, errorpkg.ErrInternalServerError(err))
@@ -57,20 +53,12 @@ func ContactCreateHandler(c echo.Context) error {
 	response.RequestID = requestID
 	response.Method = method
 	response.HTTPCode = 200
-	var newContact contract.Contact
-	newContact.ID = ResContact.ID
-	newContact.DateCreated = ResContact.CreatedAt
-	newContact.DateUpdated = ResContact.UpdatedAt
-	newContact.AccountID = ResContact.AccountID
-	newContact.Number = ResContact.Number
-	newContact.FirstName = ResContact.FirstName
-	newContact.LastName = ResContact.LastName
-	newContact.CompanyName = ResContact.CompanyName
-	newContact.Email = ResContact.Email
-	response.ResourceData = &newContact
+	newContact := ResContact
+	response.ResourceData = newContact
 	return Response(c, &response, nil)
 }
 
+// ContactUpdateHandler handles put request
 func ContactUpdateHandler(c echo.Context) error {
 	var response contract.ContactsResponse
 	requestID := c.Get("RequestID").(string)
@@ -105,7 +93,6 @@ func ContactUpdateHandler(c echo.Context) error {
 	if req.Email != "" {
 		contact.Email = req.Email
 	}
-	//log.Println(contact)
 	ResContact, err := model.UpdateContact(&contact)
 	if err != nil {
 		return Response(c, &response, errorpkg.ErrInternalServerError(err))
@@ -113,21 +100,13 @@ func ContactUpdateHandler(c echo.Context) error {
 	response.RequestID = requestID
 	response.Method = method
 	response.HTTPCode = 200
-	var newContact contract.Contact
-	newContact.ID = ResContact.ID
-	newContact.DateCreated = ResContact.CreatedAt
-	newContact.DateUpdated = ResContact.UpdatedAt
-	newContact.AccountID = ResContact.AccountID
-	newContact.Number = ResContact.Number
-	newContact.FirstName = ResContact.FirstName
-	newContact.LastName = ResContact.LastName
-	newContact.CompanyName = ResContact.CompanyName
-	newContact.Email = ResContact.Email
-	response.ResourceData = &newContact
+	newContact := ResContact
+	response.ResourceData = newContact
 	return Response(c, &response, nil)
 
 }
 
+// ContactGetHandler handles get request
 func ContactGetHandler(c echo.Context) error {
 	var response contract.ContactsResponse
 	requestID := c.Get("RequestID").(string)
@@ -147,30 +126,29 @@ func ContactGetHandler(c echo.Context) error {
 	response.RequestID = requestID
 	response.Method = method
 	response.HTTPCode = 200
-	var newContact contract.Contact
-	newContact.ID = ResContact.ID
-	newContact.DateCreated = ResContact.CreatedAt
-	newContact.DateUpdated = ResContact.UpdatedAt
-	newContact.AccountID = ResContact.AccountID
-	newContact.Number = ResContact.Number
-	newContact.FirstName = ResContact.FirstName
-	newContact.LastName = ResContact.LastName
-	newContact.CompanyName = ResContact.CompanyName
-	newContact.Email = ResContact.Email
-	response.ResourceData = &newContact
+	newContact := ResContact
+	response.ResourceData = newContact
 	return Response(c, &response, nil)
 
 }
 
+// ContactSearchHandler handles search request
 func ContactSearchHandler(c echo.Context) error {
 	var response contract.ContactsSearchResponse
 	requestID := c.Get("RequestID").(string)
 	method := c.Request().Method
 	accountID := c.Param("accountSid")
 	name := c.Param("name")
-	log.Println(name, accountID)
-	ResContact, err := model.GetContactByName(name, accountID)
-	log.Println(ResContact)
+	page := c.Param("page")
+	var pageU64 uint64
+	var err error
+	if page != "" {
+		pageU64, err = strconv.ParseUint(page, 10, 64)
+		if err != nil {
+			return BulkResponse(c, &response, errorpkg.ErrBadRequestInvalidParameter(err))
+		}
+	}
+	ResContact, err := model.GetContactByName(name, accountID, pageU64)
 	if err != nil {
 		return BulkResponse(c, &response, errorpkg.ErrInternalServerError(err))
 	}
@@ -180,10 +158,8 @@ func ContactSearchHandler(c echo.Context) error {
 	response.ResourceData = ResContact
 	var metaData contract.Metadata
 	length := len(*ResContact)
-	metaData.Total = &length
-	// metaData.PageSize = 1
-	// metaData.NextPage = "2"
-	// metaData.Total = 1
+	metaData.PageSize = length
+	metaData.Page = int(pageU64)
 	response.SetMetadata(&metaData)
 	return BulkResponse(c, &response, nil)
 
@@ -235,9 +211,6 @@ func RawResponse(c echo.Context, response interface{}, httpCode int) error {
 // Response returns Response
 func Response(c echo.Context, response *contract.ContactsResponse, err *errorpkg.Error) error {
 	response.SetErrorData(err)
-	// response.SetHTTPCode(response.BaseResponse.HTTPCode)
-	// response.SetRequestID(c.Get("RequestID").(string))
-	// response.SetMethod(c.Get("Method").(string))
 	return RawResponse(c, response, response.BaseResponse.HTTPCode)
 }
 

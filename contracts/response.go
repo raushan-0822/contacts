@@ -18,11 +18,10 @@ type BaseResponse struct {
 
 //Metadata defines the structure for metadata
 type Metadata struct {
-	PageSize     *int    `json:"page_size,omitempty"`
-	Page         *int    `json:"page,omitempty"`
-	Total        *int    `json:"total,omitempty"`
-	PreviousPage *string `json:"previous_page,omitempty"`
-	NextPage     *string `json:"next_page,omitempty"`
+	PageSize     int    `json:"page_size,omitempty"`
+	Page         int    `json:"page,omitempty"`
+	PreviousPage string `json:"previous_page,omitempty"`
+	NextPage     string `json:"next_page,omitempty"`
 }
 
 //SetMetadata setter for Metadata in Response class

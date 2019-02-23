@@ -133,9 +133,9 @@ func GetContactByID(id uint) (*Contact, error) {
 }
 
 //GetContactByName return contact obeject based on Name
-func GetContactByName(name, accountID string) (*[]Contact, error) {
+func GetContactByName(name, accountID string, page uint64) (*[]Contact, error) {
 	var contacts []Contact
-	if db := db.Limit(10).Where("first_name = ? AND account_id = ?", name, accountID).Find(&contacts); db.Error != nil {
+	if db := db.Offset(page*10).Limit(10).Where("first_name = ? AND account_id = ?", name, accountID).Find(&contacts); db.Error != nil {
 		return nil, db.Error
 	}
 	fmt.Println(contacts)
