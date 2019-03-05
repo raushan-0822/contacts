@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"os"
+    "fmt"
 	"path"
 )
 
@@ -38,6 +39,7 @@ func InitConfig(configFilepath string) error {
 
 	configFile := &configFilepath
 	config := new(AppStore)
+    fmt.Println(config)
 	file, err := os.Open(*configFile)
 
 	if err != nil {
