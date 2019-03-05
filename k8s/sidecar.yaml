@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: sidecar
-        image: envoyproxy/envoy
+        image: SIDECAR #envoyproxy/envoy
         command: ["envoy"]
         args: ["-c", "/etc/envoy.yaml", "--service-cluster", "$(POD_NAME)"]
         env:
