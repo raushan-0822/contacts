@@ -15,15 +15,17 @@ USER user
 
 #service
 FROM alpine:3.8
-RUN apk --no-cache add ca-certificates
+RUN apk --no-cache add ca-certificates supervisor
+
+#Configure
+ADD etc/supervisord.conf /etc/
+RUN supervisord --nodaemon --configuration /etc/supervisord.conf
 
 WORKDIR /app/
 
 COPY --from=builder /go/src/github.com/raushan-0822/contacts/app .
 COPY --from=builder /go/src/github.com/raushan-0822/contacts/config.json .
 
-RUN mkdir /app/tmp
-RUN adduser -S -D -H -h ./tmp user
-USER user
+RUN app /usr/local/bin/
 
-CMD ["./app"]
+CMD ["./usr/local/bin/app"]
