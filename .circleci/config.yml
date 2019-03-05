@@ -1,0 +1,13 @@
+version: 2
+jobs:
+  build:
+    working_directory: github.com/raushan-0822/contacts
+    environment:
+      TEST_RESULTS: /tmp/test-results
+    docker:
+    - image: circleci/golang:1.10
+    steps:
+    - checkout
+    - run: cd src
+    - run: go vet ./...
+    - run: go test ./...
