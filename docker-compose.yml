@@ -26,7 +26,7 @@ services:
       - "3306:3306"
 
   sidecar:
-    build: envoyproxy/envoy-alpine:v1.7.0
+    build: envoyproxy/envoy-alpine
     volumes:
       - ./front_envoy/envoy-config.yaml:/etc/envoy-config.yaml
     command: "/usr/local/bin/envoy -c /etc/envoy-config.yaml --v2-config-only -l info --service-cluster 'sidecar' --service-node 'sidecar' --log-format '[METADATA][%Y-%m-%d %T.%e][%t][%l][%n] %v'"
