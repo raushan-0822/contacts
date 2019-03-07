@@ -2,7 +2,7 @@ FROM golang:1.11-stretch as builder
 
 RUN mkdir -p /go/src/github.com/raushan-0822/contacts
 
-COPY src/* /go/src/github.com/raushan-0822/contacts/
+COPY . /go/src/github.com/raushan-0822/contacts/
 
 WORKDIR /go/src/github.com/raushan-0822/contacts/
 
