@@ -19,7 +19,7 @@ func main() {
 	}
 	config := config.GetConfig()
 
-	if err := model.Init(config.DB["engine"], config.DB["connStr"]); err != nil {
+	if err := model.Init(config.DB["engine"], os.Getenv("MYSQL_URL")); err != nil {
 		log.Fatal(err)
 	}
 	contacts.StartContactAPI()
