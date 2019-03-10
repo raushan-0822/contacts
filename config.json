@@ -1,6 +1,7 @@
 {
     "process_name" : "contact_api",
-	"log_severity" : "debeug",
+    "log_severity" : "debeug",
+    "service_port" : "8080",
 	"db": {
         "engine" : "mysql"
     },

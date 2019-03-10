@@ -2,8 +2,8 @@ package config
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
-    "fmt"
 	"path"
 )
 
@@ -13,6 +13,7 @@ var app *AppStore
 type AppStore struct {
 	ProcessName string                                 `json:"process_name,omitempty"`
 	LogLevel    string                                 `json:"log_severity,omitempty"`
+	Port        string                                 `json:"service_port,omitempty"`
 	DB          map[string]string                      `json:"db,omitempty"`
 	Cache       map[string]string                      `json:"cache,omitempty"`
 	Throttle    map[string]map[string]*ResourceActions `json:"throttle,omitempty"`
@@ -39,7 +40,7 @@ func InitConfig(configFilepath string) error {
 
 	configFile := &configFilepath
 	config := new(AppStore)
-    fmt.Println(config)
+	fmt.Println(config)
 	file, err := os.Open(*configFile)
 
 	if err != nil {

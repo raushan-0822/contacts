@@ -1,6 +1,8 @@
 package contacts
 
 import (
+	"fmt"
+
 	"github.com/raushan-0822/contacts/service/middlewares"
 
 	"github.com/labstack/echo"
@@ -19,7 +21,7 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 }
 
 // StartContactAPI starts contact apis
-func StartContactAPI() {
+func StartContactAPI(port string) {
 	e := echo.New()
 	e.Validator = &CustomValidator{validator: validator.New()}
 	e.Use(middleware.Logger())
@@ -34,5 +36,7 @@ func StartContactAPI() {
 	g := e.Group("/accounts/:accountSid/")
 	g.Use(middleware.BasicAuth(middlewares.BasicAuth))
 	AddRoutes(g)
-	e.Logger.Fatal(e.Start(":8080"))
+	fmt.Printf("Raushan")
+	fmt.Printf(port)
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", port)))
 }

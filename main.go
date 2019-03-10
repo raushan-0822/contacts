@@ -22,5 +22,5 @@ func main() {
 	if err := model.Init(config.DB["engine"], os.Getenv("MYSQL_URL")); err != nil {
 		log.Fatal(err)
 	}
-	contacts.StartContactAPI()
+	contacts.StartContactAPI(config.Port)
 }
