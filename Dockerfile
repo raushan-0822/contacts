@@ -8,15 +8,12 @@ ADD https://github.com/upx/upx/releases/download/v3.94/upx-3.94-amd64_linux.tar.
 RUN xz -d -c /usr/local/upx-3.94-amd64_linux.tar.xz | \
     tar -xOf - upx-3.94-amd64_linux/upx > /bin/upx && \
     chmod a+x /bin/upx
-# install dep
-RUN go get github.com/golang/dep/cmd/dep
 # create a working directory
-WORKDIR /go/src/starterkit
+WORKDIR /starterkit
 
-ADD * /go/src/starterkit/
-RUN dep ensure --vendor-only
+COPY . /starterkit/
 # install packages
-# RUN go mod vendor
+RUN go mod vendor
 
 # build the source
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main main.go
@@ -25,12 +22,13 @@ RUN strip --strip-unneeded main
 RUN upx main
 
 # use scratch (base for a docker image)
-FROM scratch
+FROM ubuntu
 # set working directory
 WORKDIR /root
 # copy the binary from builder
-COPY --from=builder /go/src/starterkit/main .
+COPY --from=builder /starterkit/main .
+COPY --from=builder /starterkit/config.json .
 # set env variable
-ENV MYSQL_URL="root:heimdall@tcp(172.17.0.2:3306)/contact?charset=utf8&parseTime=True"
+ENV MYSQL_URL="root:heimdall@tcp(172.18.0.2:3306)/contact?charset=utf8&parseTime=True"
 # run the binary
 CMD ["./main"]
